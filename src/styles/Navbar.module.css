@@ -1,0 +1,48 @@
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  background-color: var(--primary-color);
+}
+
+.navbarNav nav ul {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+.kidGoku {
+    position: absolute;
+    height: 72px;
+    bottom: 0px;
+    left: 160px;
+}
+
+.navbarLogo {
+    position: relative;
+}
+
+.navbarNav nav ul li {
+    list-style: none;
+}
+
+.logo {
+  font-size: 1.5rem;
+  color: var(--primary-color);
+}
+
+.navLinks {
+  list-style-type: none;
+  display: flex;
+}
+
+.navLinks li {
+  margin-left: 2rem;
+}
+
+.navLinks a {
+  color: #ffffff;
+  text-decoration: none;
+}

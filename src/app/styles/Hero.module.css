@@ -1,0 +1,131 @@
+.hero {
+  text-align: center;
+  padding: 4rem 2rem;
+  background: linear-gradient(rgba(18, 18, 18, 0.8), rgba(18, 18, 18, 0.8)),
+    url("/images/anime-background.jpg") center center/cover no-repeat;
+  color: var(--light-beige);
+  position: relative;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden; /* To hide floating elements going outside the container */
+}
+
+.hero h1 {
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: var(--text-color);
+  min-height: 3rem; /* To prevent text jumping when quotes change */
+  margin: 0 1rem;
+}
+
+.quote {
+  font-style: italic;
+  font-weight: 100 !important;
+}
+
+.speaker {
+  width: 100%;
+  text-align: end;
+}
+
+/* CTA Button Styles */
+.ctaButton {
+  margin-top: 2rem;
+  background-color: var(--links-color);
+  color: var(--background-color);
+  padding: 1rem 2rem;
+  border: none;
+  border-radius: 4px;
+  font-size: 1rem;
+  cursor: pointer;
+  animation: pulse 2s infinite;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.ctaButton:hover {
+  background-color: var(--primary-color);
+  color: var(--light-beige);
+  transform: scale(1.1);
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* Floating elements (e.g., stars or particles) */
+.floatingElements {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  pointer-events: none; /* Ensure these don't interfere with button clicks */
+}
+
+.star {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  background: var(--highlight-color); /* Customize star color */
+  border-radius: 50%;
+  opacity: 0.8;
+  animation: float 6s infinite ease-in-out;
+  top: calc(100% * var(--random, 1));
+  left: calc(100% * var(--random, 1));
+}
+
+@keyframes float {
+  0% {
+    transform: translateY(0) scale(1);
+  }
+  50% {
+    transform: translateY(-20px) scale(1.1);
+  }
+  100% {
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Add random positions for the stars */
+.star:nth-child(1) {
+  --random: 0.1;
+  animation-duration: 5s;
+}
+
+.star:nth-child(2) {
+  --random: 0.3;
+  animation-duration: 6s;
+}
+
+.star:nth-child(3) {
+  --random: 0.5;
+  animation-duration: 7s;
+}
+
+.star:nth-child(4) {
+  --random: 0.25;
+  animation-duration: 5s;
+}
+
+.star:nth-child(5) {
+  --random: 0.85;
+  --direction: 'right';
+  animation-duration: 6s;
+}
+
+.star:nth-child(6) {
+  --random: 0.45;
+  animation-duration: 10s;
+}

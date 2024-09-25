@@ -1,0 +1,30 @@
+.card {
+  border: 1px solid var(--light-beige); /* Light Beige */
+  border-radius: 8px;
+  overflow: hidden;
+  text-align: center;
+  transition: transform 0.2s, box-shadow 0.2s; /* Added box-shadow transition */
+  background-color: var(--primary-color); /* Dark Color */
+  padding: 1rem; /* Added padding */
+  box-shadow: 0 4px 8px rgba(255, 255, 255, 0.1); /* Added shadow for depth */
+  max-width: 350px; /* Limit card width */
+  margin: 1rem; /* Add margin for spacing between cards */
+}
+
+.card:hover {
+  transform: scale(1.05);
+  box-shadow: 0 8px 16px rgba(255, 255, 255, 0.2); /* Increased shadow on hover */
+}
+
+.image {
+  width: 100%;
+  height: auto;
+  border-radius: 8px; /* Added rounding to image */
+}
+
+.title {
+  padding: 1rem 0; /* Added vertical padding */
+  font-size: 1.5rem; /* Increased font size */
+  color: var(--text-color); /* Light Beige */
+  font-weight: bold; /* Made title bold */
+}
