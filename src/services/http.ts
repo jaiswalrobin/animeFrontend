@@ -7,16 +7,17 @@ const axiosClient = axios.create({
   headers: {
     'Content-Type': 'application/json',
   },
+  withCredentials: true
 });
 
 // Add a request interceptor to attach tokens (for authentication)
 axiosClient.interceptors.request.use(
   (config) => {
     // Retrieve the token from local storage or auth store
-    const token = localStorage.getItem('token'); // Or get it from Zustand auth store
-    if (token) {
-      config.headers['Authorization'] = `Bearer ${token}`;
-    }
+    // const token = localStorage.getItem('token'); // Or get it from Zustand auth store
+    // if (token) {
+    //   config.headers['Authorization'] = `Bearer ${token}`;
+    // }
     return config;
   },
   (error) => {

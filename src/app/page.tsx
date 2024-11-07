@@ -3,10 +3,10 @@ import AnimeCard from "./components/AnimeCard";
 import styles from "./page.module.css";
 
 const dummyAnimeData = [
-  { id: 1, title: "Attack on Titan", image: "/images/attack_on_titan.jpg" },
-  { id: 2, title: "My Hero Academia", image: "/images/my_hero_academia.jpg" },
-  { id: 3, title: "Demon Slayer", image: "/images/demon_slayer.jpg" },
-  { id: 4, title: "One Piece", image: "/images/one_piece.jpg" },
+  { id: 1, title: "Attack on Titan", image: "/images/attack_on_titan.png" },
+  { id: 2, title: "My Hero Academia", image: "/images/my_hero_academia.png" },
+  { id: 3, title: "Demon Slayer", image: "/images/demon_slayer.png" },
+  { id: 4, title: "One Piece", image: "/images/one_piece.png" },
 ];
 
 export default function HomePage() {

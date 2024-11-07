@@ -1,13 +1,42 @@
 "use client"
 import React from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation"; // Import from next/navigation instead
+import { usePathname } from "next/navigation";
 import styles from "../styles/Navbar.module.css";
 import HomeIcon from "./icons/HomeIcon";
 import KidGokuIcon from "./icons/KidGokuIcon";
+import useAuthStore from "@/stores/authStore";
+import { headerRoutes } from "@/constants/headerRoutes";
+
+
+const HeaderOptions = () => {
+  const pathname = usePathname();
+  const {user, _hasHydrated} = useAuthStore()
+
+  const filterRoutes = headerRoutes.filter(route => {
+    if (!_hasHydrated) {
+      return route.isAlwaysVisible
+    }
+    return user?.id ? route.isAlwaysVisible : route
+  })
+
+  return <>
+    {
+      filterRoutes.map(route => {
+        return <li key={route.path}>
+        <Link
+          href={route.path}
+          className={pathname === route.path ? styles.active : ""}
+        >
+          {route.label}
+        </Link>
+      </li>
+      })
+    }
+  </>
+}
 
 const Navbar: React.FC = () => {
-  const pathname = usePathname(); // Replaces useRouter for getting current path
 
   return (
     <nav className={styles.navbar}>
@@ -17,27 +46,16 @@ const Navbar: React.FC = () => {
       <div className={styles.navbarNav}>
         <nav>
           <ul>
-            <li>
-              <Link href="/" className={pathname === "/" ? styles.active : ""}>
-                Home
-              </Link>
-            </li>
-            <li>
-              <Link
-                href="/auth/login"
-                className={pathname === "/auth/login" ? styles.active : ""}
-              >
-                Login
-              </Link>
-            </li>
-            <li>
-              <Link
-                href="/auth/register"
-                className={pathname === "/auth/register" ? styles.active : ""}
-              >
-                Register
-              </Link>
-            </li>
+            <HeaderOptions/>
+            {/* {
+              _hasHydrated && 
+            }
+            {
+              !id && 
+            }
+            {
+              !id && 
+            } */}
           </ul>
         </nav>
       </div>

@@ -1,0 +1,203 @@
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem; /* Increased gap for better spacing */
+}
+
+.inputGroup {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+}
+
+.label {
+  font-size: 1.1rem;
+  color: var(--light-beige);
+  margin-bottom: 0.5rem; /* Added margin for spacing */
+}
+
+.input {
+  padding: 0.8rem;
+  border-radius: 5px;
+  border: 1px solid var(--light-beige);
+  outline: none;
+  background-color: var(--primary-color);
+  color: var(--light-beige);
+  transition: border-color 0.3s ease; /* Smooth transition for border color */
+}
+
+.input::placeholder {
+  color: var(--secondary-color); /* Placeholder color */
+}
+
+.input:focus {
+  border-color: var(--links-color);
+  box-shadow: 0 0 5px var(--highlight-color);
+}
+
+.submitButton {
+  padding: 1rem;
+  background-color: var(--links-color);
+  color: var(--light-beige);
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  font-size: 1.1rem; /* Larger font for buttons */
+}
+
+.submitButton:hover {
+  background-color: var(--highlight-color);
+}
+
+.error {
+  color: red;
+  margin-top: 1rem;
+}
+
+.counterButton {
+  margin-top: 1.5rem;
+  padding: 0.5rem;
+  background-color: var(--links-color);
+  border: none;
+  border-radius: 5px;
+  color: var(--light-beige);
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.counterButton:hover {
+  background-color: var(--highlight-color);
+}
+
+.characterIllustration {
+  margin-top: 1.5rem;
+}
+
+.characterIllustration img {
+  width: 120px; /* Adjust size for better visibility */
+  height: auto;
+  border-radius: 10px; /* Rounded edges for the image */
+  box-shadow: 0 4px 10px var(--shadow-color); /* Soft shadow for depth */
+}
+
+.signupPage {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  position: relative;
+  overflow: hidden; /* Prevent overflow from animations */
+  background-color: var(--background-color); /* Set the main background color */
+}
+
+.container {
+  position: relative;
+  z-index: 2; /* Ensure content is above background */
+  background-color: rgba(
+    28,
+    28,
+    28,
+    0.9
+  ); /* Slightly transparent background for contrast */
+  padding: 2rem;
+  border-radius: 10px;
+  max-width: 400px;
+  width: 100%;
+  box-shadow: 0 4px 20px var(--shadow-color);
+  text-align: center;
+}
+
+/* Title Styles */
+.title {
+  font-size: 2.5rem;
+  font-family: "Fredoka", "Arial", "Helvetica", sans-serif;
+  margin-bottom: 1.5rem;
+  color: var(--light-beige);
+  text-shadow: 1px 1px var(--shadow-color);
+}
+
+.backgroundShapes {
+  position: absolute;
+  top: 0; 
+  left: 0; 
+  width: 100%; 
+  height: 100%; 
+  overflow: hidden; 
+}
+
+.shapeCircle {
+  width: 100px; /* Size of the circle */
+  height: 100px; /* Size of the circle */
+  background-color: rgba(255, 99, 71, 0.5); /* Soft coral color */
+  border-radius: 50%; /* Makes it a circle */
+  position: absolute;
+  top: 20%; /* Adjust position as needed */
+  left: 10%; /* Adjust position as needed */
+  opacity: 0.5; /* Add some transparency */
+}
+
+.shapeTriangle {
+  width: 0;
+  height: 0;
+  border-left: 50px solid transparent;
+  border-right: 50px solid transparent;
+  border-bottom: 100px solid rgba(255, 215, 0, 0.5); /* Soft yellow */
+  position: absolute;
+  top: 40%; /* Adjust position as needed */
+  right: 15%; /* Adjust position as needed */
+}
+
+.shapeWave {
+  width: 100%;
+  height: 50px;
+  background: rgba(0, 150, 255, 0.3);
+  clip-path: polygon(0 100%, 50% 0%, 100% 100%); /* Simple wave */
+  position: absolute;
+  bottom: 0; /* Positioned at the bottom */
+}
+
+.shapeStar {
+  width: 30px;
+  height: 30px;
+  background-color: rgba(239, 219, 103, 0.917);
+  clip-path: polygon(
+    50% 0%,
+    61% 35%,
+    98% 35%,
+    68% 57%,
+    79% 91%,
+    50% 70%,
+    21% 91%,
+    32% 57%,
+    2% 35%,
+    39% 35%
+  );
+  position: absolute;
+  top: 10%; /* Adjust position as needed */
+  left: 50%; /* Center it or adjust position */
+  transform: translateX(-50%); /* Centering */
+}
+
+@keyframes float {
+    0% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translate(-5px, -20px);
+    }
+    75% {
+        transform: translate(-20px, -5px);
+      }
+    100% {
+      transform: translateY(0);
+    }
+  }
+  
+  .shapeCircle,
+  .shapeTriangle,
+  .shapeWave,
+  .shapeStar {
+    animation: float 5s ease-in-out infinite; /* Apply floating animation */
+  }
+
