@@ -1,29 +1,18 @@
-'use client'; // Enables client-side functionality
-
-import { useEffect, useState } from 'react';
-import useAuthStore from '@/stores/authStore'; // Import the Zustand store
-// import { useCounterStore } from '@/stores/countStore';
-import styles from '../../styles/signup.module.css'; // Custom CSS module for signup page
+'use client';
+import { useState } from 'react';
+import useAuthStore from '@/stores/authStore';
+import styles from '../../styles/signup.module.css';
 import { useRouter } from 'next/navigation';
-
-// const logCount = () => {
-//   useCounterStore.setState({ count: 23 });
-// };
+import withRouteGuard from '@/components/RouteGuard';
 
 const SignupPage = () => {
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const { signup, isLoading, user } = useAuthStore(); // Zustand signup action
+  const { signup, isLoading } = useAuthStore();
   const router = useRouter()
 
-  // useEffect(() => {
-  //   if (user?.id) {
-  //     // Redirect to profile page if the user is logged in
-  //     router.replace('/user/profile');
-  //   }
-  // }, [user, router]);
 
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -106,4 +95,4 @@ const SignupPage = () => {
   );
 };
 
-export default SignupPage;
+export default withRouteGuard(SignupPage)

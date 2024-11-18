@@ -13,23 +13,51 @@ export interface SearchFilters {
 }
 
 interface User {
-  id: string;
-  email: string;
-  name: string;
-  // Add other user properties as needed
+  email: string | null | undefined;
+  firstName: string | null;
+  lastName:string | null;
+  id: string | null;
+  emailVerified: boolean
 }
 
 interface AuthState {
-  user: User | null;
-  isAuthenticated: boolean;
+  user: User | null,
+  redirectPath: string | null,
   isLoading: boolean;
-  error: string | null;
-  
-  // Actions
+  _hasHydrated: boolean;
+  sessionExpiry: string | null,
+  setUser: (user: User | null) => void;
+  setHasHydrated: (state: boolean) => void;
+  resetState: () => void;
+  signup: (email: string, password: string, firstName: string, lastName: string) => Promise<void>;
   login: (email: string, password: string) => Promise<void>;
-  signup: (email: string, password: string, name: string) => Promise<void>;
   logout: () => void;
-  clearError: () => void;
+  verifyEmail: (token: string) => Promise<void>;
+  forgotPassword: (email: string) => Promise<void>;
+  setRedirectLink: (path: string) => void
 }
 
-export type {AuthState, User}
+interface UserState {
+  userProfile: object | null;
+  _hasHydrated: boolean;
+  setUserState: (user: User | null) => void;
+  setHasHydrated: (state: boolean) => void;
+  resetState: () => void;
+  getUser: (id: string) => Promise<void>;
+}
+
+interface ErrorState {
+  error: string | null | undefined;
+  resetError: () => void;
+  setError: (error: string) => void;
+  handleUnauthorized: () => void;
+  handleForbidden: () => void;
+  handleOtherErrors: (error: string) => void;
+}
+
+type RouteConfig = {
+  pattern: RegExp;
+  auth: 'required' | 'optional' | 'none';
+  verifiedEmail?: boolean;
+};
+export type {AuthState, User, RouteConfig, UserState, ErrorState}

@@ -1,0 +1,24 @@
+.authForm {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.button {
+    display: flex;
+    align-items: center;
+    font-size: 18px;
+    padding: 8px 12px;
+}
+.button span {
+    margin-left: 8px;
+}
+
+.error {
+    color: var(----error-color);
+}
+.forgotPassword {
+    display: flex;
+    justify-content: end;
+    width: 100%;
+}

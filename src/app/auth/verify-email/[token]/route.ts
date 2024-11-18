@@ -1,4 +1,3 @@
-// src/app/api/auth/verify-email/[token]/route.ts
 import { NextResponse } from 'next/server';
 import axios from 'axios';
 

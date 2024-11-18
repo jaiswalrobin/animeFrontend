@@ -1,35 +1,58 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { routeConfigs } from './middleware/routeConfigs';
+import { AuthUtils } from './middleware/authUtils';
+import { ROUTES } from './middleware/routes';
+import useAuthStore from './stores/authStore';
+
 
 export function middleware(req: NextRequest) {
-  
-  const token = req.cookies.get('access-token');
-  console.log('middleware-chala, token => ', token)
-  const url = req.nextUrl.clone();
-  console.log(url, 'url')
+  const path = req.nextUrl.pathname;
+  const token = AuthUtils.getTokenFromRequest(req);
+  const {user} = useAuthStore.getState()
 
-  if (!token && (!url.pathname.startsWith('/auth')) ) {
-    // && (!url.pathname.startsWith('/auth') || url.pathname !== '/auth/login')
-    return NextResponse.redirect(new URL('/auth/login', req.url));
-  } else if (token && url.pathname.startsWith('/auth')) {
-    return NextResponse.redirect(new URL('/user/profile', req.url));
+  console.log(user, 'user-state....')
+  
+  // Find matching route configuration
+  const matchedConfig = Object.values(routeConfigs).find(
+    config => config.pattern.test(path)
+  );
+
+  if (!matchedConfig) {
+    // Handle unmatched routes (could redirect to 404 or homepage)
+    return NextResponse.redirect(new URL(ROUTES.PUBLIC.HOME, req.url));
   }
+
+  // Handle authentication based on route configuration
+  // switch (matchedConfig.auth) {
+  //   case 'required':
+  //     if (!token) {
+  //       return NextResponse.redirect(new URL(ROUTES.AUTH.LOGIN, req.url));
+  //     }
+  //     // if (!AuthUtils.validateToken(token)) {
+  //     //   return NextResponse.redirect(new URL(ROUTES.AUTH.LOGIN, req.url));
+  //     // }
+  //     // Check email verification if required
+  //     // if (matchedConfig.verifiedEmail && !AuthUtils.isEmailVerified(token)) {
+  //     //   return NextResponse.redirect(new URL(ROUTES.AUTH.PENDING_VERIFICATION, req.url));
+  //     // }
+  //     break;
+
+  //   case 'none':
+  //     if (token) {
+  //       return NextResponse.redirect(new URL(ROUTES.USER.PROFILE, req.url));
+  //     }
+  //     break;
+
+  //   case 'optional':
+  //     // No redirects needed, allow both authenticated and non-authenticated users
+  //     break;
+  // }
 
   return NextResponse.next();
 }
 
-// // Define the routes you want the middleware to apply to
-// export const config = {
-//   matcher: ['/', '/anime/:path*', '/user-profile'],
-// };
 export const config = {
   matcher: [
-    /*
-     * Match all request paths except for the ones starting with:
-     * - _next/static (static files)
-     * - _next/image (image optimization files)
-     * - favicon.ico (favicon file)
-     * - assets
-     */
     '/((?!_next/static|_next/image|favicon.ico|assets).*)',
-  ]
+  ],
 };

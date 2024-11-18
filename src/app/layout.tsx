@@ -1,7 +1,7 @@
 import "./globals.css";
-import Navbar from "../components/Navbar";  // Assuming you have a Navbar component
-import Footer from "../components/Footer";  // Assuming you have a Footer component
-
+import Navbar from "../components/Navbar"; 
+import Footer from "../components/Footer";
+import { NotificationProvider } from '@/context/NotificationContext';
 interface LayoutProps {
   children: React.ReactNode;
   showNavbar?: boolean;
@@ -14,12 +14,14 @@ export default function RootLayout({
   showFooter = true,
 }: LayoutProps) {
   return (
-    <html lang="en">
-      <body>
-        {showNavbar && <Navbar />}
-        <main>{children}</main>
-        {showFooter && <Footer />}
-      </body>
-    </html>
+      <html lang="en">
+        <body>
+         <NotificationProvider>
+          {showNavbar && <Navbar />}
+          <main>{children}</main>
+          {showFooter && <Footer />}
+          </NotificationProvider>
+        </body>
+      </html>
   );
 }

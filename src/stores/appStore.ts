@@ -1,22 +1,24 @@
-// src/stores/useAppStore.ts
 import { create } from "zustand";
-import { SearchFilters } from "../types";
+import useAuthStore from "./authStore";
+import useErrorStore from "./errorStore";
+import useUserStore from "./userStore";
 
 interface AppState {
-  searchFilters: SearchFilters;
-  setSearchFilters: (newFilters: Partial<SearchFilters>) => void;
+  resetAllStores: () => void
 }
 
-const useAppStore = create<AppState>((set) => ({
-  searchFilters: {
-    genre: "all",
-    season: "all",
-    sortBy: "popularity",
+const useAppStore = create<AppState>(() => ({
+  resetAllStores: () => {
+    // Reset individual stores by calling their reset methods
+    const { logout } = useAuthStore.getState();
+    const {resetState} = useUserStore.getState()
+    const { resetError } = useErrorStore.getState();
+
+    // Call reset functions for each store
+    if (logout) logout();
+    resetState(); // Clears the error store
+    resetError()
   },
-  setSearchFilters: (newFilters) =>
-    set((state) => ({
-      searchFilters: { ...state.searchFilters, ...newFilters },
-    })),
 }));
 
 export { useAppStore };

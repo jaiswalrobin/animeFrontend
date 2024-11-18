@@ -1,0 +1,46 @@
+
+.container {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--background-color);
+  padding: 1rem;
+}
+
+.card {
+  background-color: var(--primary-color);
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px var(--shadow-color);
+  text-align: center;
+  max-width: 400px;
+  width: 100%;
+}
+
+.title {
+  color: var(--text-color);
+  font-size: 1.8rem;
+  margin-bottom: 1rem;
+}
+
+.message {
+  color: var(--secondary-color);
+  margin-bottom: 2rem;
+  line-height: 1.5;
+}
+
+.loader {
+  width: 50px;
+  height: 50px;
+  border: 3px solid var(--primary-color);
+  border-radius: 50%;
+  border-top-color: var(--links-color);
+  margin: 0 auto 2rem;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}

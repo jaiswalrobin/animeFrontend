@@ -2,6 +2,7 @@
 
 import axiosClient from '@/services/http';
 import { useState } from 'react';
+import styles from '../../styles/ForgotPassword.module.css'
 
 const ForgotPasswordPage = () => {
   const [email, setEmail] = useState('');
@@ -14,11 +15,11 @@ const ForgotPasswordPage = () => {
     setError('');
 
     try {
-      const response = await axiosClient.post('/api/auth/forgot-password', {
-        data: JSON.stringify({ email }),
+      const response = await axiosClient.post('/auth/forgot-password', {
+        email,
       });
 
-      if (response.status !== 200) {
+      if (response.status >= 500) {
         throw new Error('Internal Server Error');
       }
 
@@ -29,7 +30,7 @@ const ForgotPasswordPage = () => {
   };
 
   return (
-    <div>
+    <div className={styles.forgotPasswordForm}>
       <h1>Forgot Password</h1>
       <form onSubmit={handleSubmit}>
         <input

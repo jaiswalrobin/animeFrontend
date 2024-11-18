@@ -2,39 +2,24 @@ import { create } from "zustand";
 import { createJSONStorage, devtools, persist } from 'zustand/middleware';
 import axiosClient from "@/services/http";
 import { AxiosError } from "axios";
-
-interface User  {
-  email: string | null;
-  firstName: string | null;
-  lastName:string | null;
-  id: string | null;
-}
-interface AuthState {
-  user: User | null,
-  isLoading: boolean;
-  _hasHydrated: boolean;
-  setUser: (user: User | null) => void;
-  setHasHydrated: (state: boolean) => void;
-  clearUser: () => void;
-  signup: (email: string, password: string, firstName: string, lastName: string) => Promise<void>;
-  login: (email: string, password: string) => Promise<void>;
-  logout: () => void;
-  verifyEmail: (token: string) => Promise<void>;
-  forgotPassword: (email: string) => Promise<void>;
-}
+import { AuthState } from "@/types";
 
 const useAuthStore = create<AuthState>()(
   devtools(
     persist(
       (set) => ({
         isLoading: false,
+        sessionExpiry: null,
         _hasHydrated: false,
-        user: { firstName: null, lastName: null, id: null, email: null},
+        redirectPath: null,
+        user: { firstName: null, lastName: null, id: null, email: null, emailVerified: false},
         // Action to update hydration state
         setHasHydrated: (state) => set({ _hasHydrated: state }),
         setUser: (user) => set({ user }, false, "setUser"),
-        clearUser: () => set({ user: null }, false, "clearUser"),
+        resetState: () => set({user: null, sessionExpiry: null }, false, "resetState"),
+        setRedirectLink: (path) => set({ redirectPath: path }),
 
+        // TODO: show signup success msg or any errors
         signup: async (email, password, firstName, lastName) => {
           set((state) => ({ ...state, isLoading: true }), false, "signup/start");
           try {
@@ -61,9 +46,9 @@ const useAuthStore = create<AuthState>()(
               password,
             });
 
-            const data = response.data.user;
-            console.log(data, 'data-aaya')
-            set((state) => ({ ...state, user: data, isLoading: false }), false, "login/success");
+            const {user, sessionExpiry} = response.data;
+            console.log(user, 'data-aaya', sessionExpiry)
+            set((state) => ({ ...state, user, sessionExpiry, isLoading: false }), false, "login/success");
           } catch (error) {
             const err = error as AxiosError;
             set((state) => ({ ...state, isLoading: false }), false, "login/error");
@@ -71,20 +56,29 @@ const useAuthStore = create<AuthState>()(
           }
         },
 
-        logout: () => {
-          // set((state) => ({ }), false, "logout");
-          set((state) => ({ ...state, user: null }), false, "logout");
-          localStorage.removeItem('user');
+        logout: async () => {
+          try {
+            await axiosClient.post("/auth/logout");
+            set((state) => ({...state, user:null, sessionExpiry: null}), true, "logout");
+            
+          } catch (error) {
+            const err = error as AxiosError;
+            throw err
+          }
         },
 
         verifyEmail: async (token) => {
-          set((state) => ({ ...state, isLoading: true, error: null }), false, "verifyEmail/start");
+          set((state) => ({ ...state, isLoading: true }), false, "verifyEmail/start");
           try {
-            const response = await axiosClient.get(`auth/verify-email/${token}`);
+            const response = await axiosClient.get(`auth/verify-email?token=${token}`);
 
             if (response.status !== 200) throw new Error("Verification failed");
 
-            set((state) => ({ ...state, isLoading: false }), false, "verifyEmail/success");
+            set((state) => ({ 
+              ...state, 
+              user: state.user ? { ...state.user, emailVerified: true } : null, 
+              isLoading: false 
+            }), false, "verifyEmail/success");
           } catch (error) {
             const err = error as AxiosError;
             set((state) => ({ ...state, isLoading: false }), false, "verifyEmail/error");
@@ -109,7 +103,8 @@ const useAuthStore = create<AuthState>()(
         name: "user",
         storage: createJSONStorage(() => localStorage),
         partialize: (state) => ({
-          user: state.user
+          user: state.user,
+          sessionExpiry: state.sessionExpiry
         }),
         onRehydrateStorage: (state) => {
           // Set `_hasHydrated` to true after hydration completes

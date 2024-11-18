@@ -1,39 +1,44 @@
-// src/app/auth/login/page.tsx
-'use client';
+"use client";
 
-import AuthForm from '@/components/AuthForm';
-import useAuthStore from '@/stores/authStore';
-import { useRouter } from 'next/navigation';
-import { useEffect } from 'react';
+import AuthForm from "@/components/AuthForm";
+import useAuthStore from "@/stores/authStore";
+import { useState } from "react";
+import styles from "../../styles/login.module.css";
+import { AxiosError } from "axios";
+import withRouteGuard from "@/components/RouteGuard";
 
-export default function Login() {
-  const { login, isLoading, user } = useAuthStore();
-  const router = useRouter()
+export const Login = () => {
+  const { login, isLoading } = useAuthStore();
+  const [error, setError] = useState<string | null>(null);
 
-  // useEffect(() => {
-  //   if (user?.id) {
-  //     // Redirect to profile page if the user is logged in
-  //     router.replace('/user/profile');
-  //   }
-  // }, [user, router]);
-
-  const handleLogin = async (email: string, password: string) => {
+  const handleLogin = async (e: Event, email: string, password: string) => {
     try {
-      const response = await login(email, password );
-      console.log('Login successful:', response);
-      router.push('/user/profile')
-    } catch (err) {
-      console.error('Login failed:', err);
+      e.preventDefault();
+      await login(email, password);
+      console.log("Login successful:");
+      setError(null);
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        console.error("Login failed:", error);
+
+        setError(
+          error?.response?.data?.message || "An error occurred during login"
+        );
+      } else {
+        setError("An unexpected error occurred");
+      }
     }
   };
 
   return (
-    <div>
-      <h1>Login</h1>
-      {
-        isLoading ? <div>Logging you in...</div> : <div>login done</div>
-      }
-      <AuthForm onSubmit={handleLogin} />
+    <div className={styles.loginPage}>
+      <div className={styles.loginContainer}>
+        <h1 className={styles.title}>Login</h1>
+        {error && <div className={styles.error}>{error}</div>}
+        <AuthForm onSubmit={handleLogin} isLoading={isLoading} />
+      </div>
     </div>
   );
 }
+
+export default withRouteGuard(Login)
