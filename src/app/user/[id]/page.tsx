@@ -9,6 +9,12 @@ import { useNotification } from "@/context/NotificationContext";
 import withRouteGuard from "@/components/RouteGuard";
 
 const UserProfile = ({ params }: { params: any }) => {
+
+  const fetchUserData = async () => {
+    const response = await fetch('/api/anime');
+    const data = await response.json();
+    console.log(data);
+  };
   console.log(params, "aparamsafjisdifb");
   const { user, _hasHydrated } = useAuthStore();
   const { getUser, userProfile } = useUserStore();
@@ -18,6 +24,10 @@ const UserProfile = ({ params }: { params: any }) => {
   const [loading, setLoading] = useState(false)
 
   const showNotification = useNotification();
+
+  useEffect(() => {
+    fetchUserData()
+  }, [])
 
   useEffect(() => {
     const userId = params?.id;

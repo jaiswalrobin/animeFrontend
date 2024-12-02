@@ -20,7 +20,7 @@ axiosClient.interceptors.response.use(
     if (error.response && error.response.status === 401) {
       handleUnauthorized()
       console.error('Unauthorized. Redirecting to login...');
-      window.location.href = '/auth/login';
+      // window.location.href = '/auth/login';
     } else if (error.response.status === 403) {
       handleForbidden()
     } else {

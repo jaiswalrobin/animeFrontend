@@ -9,14 +9,13 @@ interface AppState {
 
 const useAppStore = create<AppState>(() => ({
   resetAllStores: () => {
-    // Reset individual stores by calling their reset methods
-    const { logout } = useAuthStore.getState();
+    const { logout, user } = useAuthStore.getState();
     const {resetState} = useUserStore.getState()
     const { resetError } = useErrorStore.getState();
 
-    // Call reset functions for each store
-    if (logout) logout();
-    resetState(); // Clears the error store
+    
+    if (logout && user) logout();
+    resetState();
     resetError()
   },
 }));

@@ -1,14 +1,14 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { routeConfigs } from './middleware/routeConfigs';
-import { AuthUtils } from './middleware/authUtils';
+// import { AuthUtils } from './middleware/authUtils';
 import { ROUTES } from './middleware/routes';
 import useAuthStore from './stores/authStore';
 
 
 export function middleware(req: NextRequest) {
   const path = req.nextUrl.pathname;
-  const token = AuthUtils.getTokenFromRequest(req);
-  const {user} = useAuthStore.getState()
+  // const token = AuthUtils.getTokenFromRequest(req);
+  const user = useAuthStore.getState().user
 
   console.log(user, 'user-state....')
   
