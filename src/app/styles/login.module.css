@@ -1,0 +1,93 @@
+/* Main login page container */
+.loginPage {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background: var(--primary-color);
+  background: linear-gradient(
+    45deg,
+    var(--primary-color),
+    var(--secondary-color)
+  ); /* Initial gradient */
+  transition: background 1s ease-in-out; /* Smooth transition for background color */
+}
+
+/* Container for the login form */
+.loginContainer {
+  background-color: var(--primary-color);
+  border-radius: 12px;
+  padding: 2.5rem;
+  box-shadow: 0 10px 30px var(--shadow-color);
+  width: 100%;
+  max-width: 400px;
+  text-align: center;
+  box-sizing: border-box;
+  position: relative;
+  transition: transform 0.5s ease, box-shadow 0.5s ease;
+}
+
+.loginContainer:hover {
+  transform: scale(1.05); /* Slight zoom effect on hover */
+  box-shadow: 0 15px 40px var(--shadow-color); /* Increased shadow on hover */
+}
+
+/* Title */
+.title {
+  font-family: "Fredoka", sans-serif;
+  font-size: 2.8rem;
+  color: var(--text-color);
+  margin-bottom: 1rem;
+  text-transform: uppercase;
+  text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.3); /* Bold shadow */
+  letter-spacing: 1px;
+  transition: color 0.3s ease;
+}
+
+.title:hover {
+  color: var(--links-color); /* Funky hover effect on title */
+}
+
+/* Loader and success messages */
+.loader {
+  font-size: 1.3rem;
+  color: var(--links-color);
+  margin-top: 1.5rem;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.successMessage {
+  font-size: 1.3rem;
+  color: var(--links-color);
+  margin-top: 1.5rem;
+  font-weight: bold;
+}
+
+.loginContainer input[type="email"]:focus,
+.loginContainer input[type="password"]:focus {
+  border-color: var(--links-color);
+  outline: none;
+  box-shadow: 0 0 10px var(--links-color); /* Funky glowing effect */
+}
+
+/* Submit button styling */
+.loginContainer button[type="submit"] {
+  width: 100%;
+  padding: 16px;
+  background-color: var(--links-color);
+  border: none;
+  border-radius: 12px;
+  color: var(--text-color);
+  font-size: 1.3rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-sizing: border-box;
+}
+
+.loginContainer button[type="submit"]:hover {
+  background-color: var(--text-color); /* Funky hover effect on button */
+  color: var(--primary-color);
+  transform: scale(1.05);
+}
